@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package database;
+package database.types;
 
-option go_package = "types";
+option go_package = "record";
 
 service Database {
     rpc GetRecord (DBRequest) returns (DBReply) {}
