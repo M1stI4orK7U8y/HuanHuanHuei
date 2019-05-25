@@ -15,3 +15,10 @@ func (r *Record) Marshal() ([]byte, error) {
 func (r *Record) Unmarshal(input []byte) {
 	json.Unmarshal(input, r)
 }
+
+// NewRecord get new record with json str
+func NewRecord(input []byte) *Record {
+	ret := new(Record)
+	ret.Unmarshal(input)
+	return ret
+}
