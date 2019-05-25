@@ -44,7 +44,7 @@ message TokenDetail {
 }
 
 message StatusTime {
-    int64 pendingAt = 1;
-    int64 finishedAt = 2;
-    int64 confirmedAt = 3;
+    int64 pendingTime = 1;
+    int64 finishedTime = 2;
+    int64 confirmedTime = 3;
 }
