@@ -27,6 +27,6 @@ func (d *Dao) update(input types.IRecordType, bname string) error {
 		}
 		// write to database
 		save, _ := input.Marshal()
-		return b.Put([]byte(input.GetID()), save)
+		return b.Put([]byte(input.GetId()), save)
 	})
 }
