@@ -5,9 +5,10 @@ package record
 
 import (
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
 	math "math"
-	_ "src/database/types/reply"
+
+	proto "github.com/golang/protobuf/proto"
+	_ "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
