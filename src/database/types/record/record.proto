@@ -1,27 +1,28 @@
 syntax = "proto3";
 
-package database.types;
+package database.types.record;
 
 option go_package = "record";
 
 service Database {
-    rpc GetRecord (DBRequest) returns (DBReply) {}
-    rpc GetRecords (DBRequests) returns (DBReplies) {}
+    rpc GetRecord (RecordID) returns (RecordDatum) {}
+    rpc GetRecords (RecordIDs) returns (RecordData) {}
+    rpc UpdateRecord (RecordDatum) returns (RecordID) {}
 }
 
-message DBReply {
+message RecordDatum {
     Record reply = 1;
 }
 
-message DBReplies {
+message RecordData {
     repeated Record replies = 1;
 }
 
-message DBRequest {
+message RecordID {
     string txhash = 1;
 }
 
-message DBRequests {
+message RecordIDs {
     repeated string txhashes = 1;
 }
 
