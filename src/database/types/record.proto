@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package database;
+
+option go_package = "types";
+
+service Database {
+    rpc GetRecord (DBRequest) returns (DBReply) {}
+    rpc GetRecords (DBRequests) returns (DBReplies) {}
+}
+
+message DBReply {
+    Record reply = 1;
+}
+
+message DBReplies {
+    repeated Record replies = 1;
+}
+
+message DBRequest {
+    string txhash = 1;
+}
+
+message DBRequests {
+    repeated string txhashes = 1;
+}
+
+message Record {
+    string txhash = 1;
+    TokenDetail fromToken = 2;
+    TokenDetail toToken = 3;
+    double exrate = 4;  // fromvalue * exrate = totokenvalue
+    int32 statusCode = 5;
+    StatusTime statusTime = 6;
+}
+
+message TokenDetail {
+    string txhash = 1;
+    string tokenType = 2;
+    string address = 3;
+    string tokenValue = 4;
+    int32 tokenDecimal = 5;
+}
+
+message StatusTime {
+    int64 pendingAt = 1;
+    int64 finishedAt = 2;
+    int64 confirmedAt = 3;
+}
