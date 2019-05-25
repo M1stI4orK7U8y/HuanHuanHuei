@@ -25,10 +25,6 @@ message ItemID {
     string id = 1;
 }
 
-message ItemIDs {
-    repeated string ids = 1;
-}
-
 message Pending {
     string id = 1;   // id == record.id == record.fromToken.txhash
     int64 pendingTime = 2;
