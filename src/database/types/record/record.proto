@@ -26,7 +26,7 @@ message DBRequests {
 }
 
 message Record {
-    string txhash = 1;
+    string id = 1;   // id == fromToken.txhash
     TokenDetail fromToken = 2;
     TokenDetail toToken = 3;
     double exrate = 4;  // fromvalue * exrate = totokenvalue
