@@ -7,6 +7,8 @@ import (
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/pending"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/record"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
+
+	"github.com/golang/protobuf/ptypes/empty"
 )
 
 // Server contrustor
@@ -15,7 +17,7 @@ type Server struct {
 }
 
 // GetPendings get all pending items
-func (s *Server) GetPendings(ctx context.Context) (*pending.PendingItems, error) {
+func (s *Server) GetPendings(ctx context.Context, _ *empty.Empty) (*pending.PendingItems, error) {
 	list, err := s.svc.GetPendings()
 
 	if err != nil {

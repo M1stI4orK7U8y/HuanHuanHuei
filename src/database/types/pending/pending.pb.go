@@ -4,12 +4,16 @@
 package pending
 
 import (
+	context "context"
 	fmt "fmt"
 	math "math"
 
 	proto "github.com/golang/protobuf/proto"
-	_ "github.com/golang/protobuf/ptypes/empty"
-	_ "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	reply "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -220,4 +224,156 @@ var fileDescriptor_1897aa120629ba64 = []byte{
 	0xc4, 0xf5, 0x19, 0xb6, 0xc8, 0x2b, 0x0c, 0xe6, 0x98, 0xe2, 0x4e, 0x7a, 0xf7, 0x9f, 0xd4, 0xac,
 	0xeb, 0x84, 0x6f, 0xd6, 0xff, 0xea, 0xd9, 0x86, 0x55, 0x57, 0xcf, 0x39, 0xfd, 0x0b, 0x00, 0x00,
 	0xff, 0xff, 0x52, 0x49, 0xe0, 0xd8, 0x93, 0x02, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// DatabaseClient is the client API for Database service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type DatabaseClient interface {
+	GetPendings(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*PendingItems, error)
+	UpdatePending(ctx context.Context, in *PendingItem, opts ...grpc.CallOption) (*reply.Reply, error)
+	DeletePending(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*reply.Reply, error)
+}
+
+type databaseClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewDatabaseClient(cc *grpc.ClientConn) DatabaseClient {
+	return &databaseClient{cc}
+}
+
+func (c *databaseClient) GetPendings(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*PendingItems, error) {
+	out := new(PendingItems)
+	err := c.cc.Invoke(ctx, "/database.types.pending.Database/GetPendings", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseClient) UpdatePending(ctx context.Context, in *PendingItem, opts ...grpc.CallOption) (*reply.Reply, error) {
+	out := new(reply.Reply)
+	err := c.cc.Invoke(ctx, "/database.types.pending.Database/UpdatePending", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseClient) DeletePending(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*reply.Reply, error) {
+	out := new(reply.Reply)
+	err := c.cc.Invoke(ctx, "/database.types.pending.Database/DeletePending", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DatabaseServer is the server API for Database service.
+type DatabaseServer interface {
+	GetPendings(context.Context, *empty.Empty) (*PendingItems, error)
+	UpdatePending(context.Context, *PendingItem) (*reply.Reply, error)
+	DeletePending(context.Context, *ItemID) (*reply.Reply, error)
+}
+
+// UnimplementedDatabaseServer can be embedded to have forward compatible implementations.
+type UnimplementedDatabaseServer struct {
+}
+
+func (*UnimplementedDatabaseServer) GetPendings(ctx context.Context, req *empty.Empty) (*PendingItems, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPendings not implemented")
+}
+func (*UnimplementedDatabaseServer) UpdatePending(ctx context.Context, req *PendingItem) (*reply.Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePending not implemented")
+}
+func (*UnimplementedDatabaseServer) DeletePending(ctx context.Context, req *ItemID) (*reply.Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePending not implemented")
+}
+
+func RegisterDatabaseServer(s *grpc.Server, srv DatabaseServer) {
+	s.RegisterService(&_Database_serviceDesc, srv)
+}
+
+func _Database_GetPendings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).GetPendings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/database.types.pending.Database/GetPendings",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).GetPendings(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Database_UpdatePending_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PendingItem)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).UpdatePending(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/database.types.pending.Database/UpdatePending",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).UpdatePending(ctx, req.(*PendingItem))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Database_DeletePending_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).DeletePending(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/database.types.pending.Database/DeletePending",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).DeletePending(ctx, req.(*ItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Database_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "database.types.pending.Database",
+	HandlerType: (*DatabaseServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetPendings",
+			Handler:    _Database_GetPendings_Handler,
+		},
+		{
+			MethodName: "UpdatePending",
+			Handler:    _Database_UpdatePending_Handler,
+		},
+		{
+			MethodName: "DeletePending",
+			Handler:    _Database_DeletePending_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "src/database/types/pending/pending.proto",
 }

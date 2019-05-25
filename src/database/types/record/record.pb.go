@@ -4,11 +4,15 @@
 package record
 
 import (
+	context "context"
 	fmt "fmt"
 	math "math"
 
 	proto "github.com/golang/protobuf/proto"
-	_ "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
+	reply "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -430,4 +434,156 @@ var fileDescriptor_37b3903fc871297c = []byte{
 	0x70, 0xb3, 0xde, 0x63, 0x94, 0xf8, 0xe9, 0x4d, 0xa6, 0xf9, 0x29, 0xd0, 0xe6, 0x4a, 0x7a, 0x9f,
 	0x86, 0x3f, 0xdd, 0xa7, 0x7d, 0x1d, 0x98, 0xff, 0xc4, 0x9b, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff,
 	0x7c, 0x81, 0xac, 0xc0, 0x8e, 0x04, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// DatabaseClient is the client API for Database service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type DatabaseClient interface {
+	GetRecord(ctx context.Context, in *RecordID, opts ...grpc.CallOption) (*RecordDatum, error)
+	GetRecords(ctx context.Context, in *RecordIDs, opts ...grpc.CallOption) (*RecordData, error)
+	UpdateRecord(ctx context.Context, in *RecordDatum, opts ...grpc.CallOption) (*reply.Reply, error)
+}
+
+type databaseClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewDatabaseClient(cc *grpc.ClientConn) DatabaseClient {
+	return &databaseClient{cc}
+}
+
+func (c *databaseClient) GetRecord(ctx context.Context, in *RecordID, opts ...grpc.CallOption) (*RecordDatum, error) {
+	out := new(RecordDatum)
+	err := c.cc.Invoke(ctx, "/database.types.record.Database/GetRecord", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseClient) GetRecords(ctx context.Context, in *RecordIDs, opts ...grpc.CallOption) (*RecordData, error) {
+	out := new(RecordData)
+	err := c.cc.Invoke(ctx, "/database.types.record.Database/GetRecords", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseClient) UpdateRecord(ctx context.Context, in *RecordDatum, opts ...grpc.CallOption) (*reply.Reply, error) {
+	out := new(reply.Reply)
+	err := c.cc.Invoke(ctx, "/database.types.record.Database/UpdateRecord", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DatabaseServer is the server API for Database service.
+type DatabaseServer interface {
+	GetRecord(context.Context, *RecordID) (*RecordDatum, error)
+	GetRecords(context.Context, *RecordIDs) (*RecordData, error)
+	UpdateRecord(context.Context, *RecordDatum) (*reply.Reply, error)
+}
+
+// UnimplementedDatabaseServer can be embedded to have forward compatible implementations.
+type UnimplementedDatabaseServer struct {
+}
+
+func (*UnimplementedDatabaseServer) GetRecord(ctx context.Context, req *RecordID) (*RecordDatum, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRecord not implemented")
+}
+func (*UnimplementedDatabaseServer) GetRecords(ctx context.Context, req *RecordIDs) (*RecordData, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRecords not implemented")
+}
+func (*UnimplementedDatabaseServer) UpdateRecord(ctx context.Context, req *RecordDatum) (*reply.Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRecord not implemented")
+}
+
+func RegisterDatabaseServer(s *grpc.Server, srv DatabaseServer) {
+	s.RegisterService(&_Database_serviceDesc, srv)
+}
+
+func _Database_GetRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RecordID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).GetRecord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/database.types.record.Database/GetRecord",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).GetRecord(ctx, req.(*RecordID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Database_GetRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RecordIDs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).GetRecords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/database.types.record.Database/GetRecords",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).GetRecords(ctx, req.(*RecordIDs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Database_UpdateRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RecordDatum)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).UpdateRecord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/database.types.record.Database/UpdateRecord",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).UpdateRecord(ctx, req.(*RecordDatum))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Database_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "database.types.record.Database",
+	HandlerType: (*DatabaseServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetRecord",
+			Handler:    _Database_GetRecord_Handler,
+		},
+		{
+			MethodName: "GetRecords",
+			Handler:    _Database_GetRecords_Handler,
+		},
+		{
+			MethodName: "UpdateRecord",
+			Handler:    _Database_UpdateRecord_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "src/database/types/record/record.proto",
 }
