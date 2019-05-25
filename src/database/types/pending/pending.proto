@@ -5,7 +5,7 @@ package database.types.pending;
 option go_package = "pending";
 
 import "vendor/protobuf/include/google/protobuf/empty.proto";
-import "src/database/types/reply.proto";
+import "src/database/types/reply/reply.proto";
 
 service Database {
     rpc GetPendings (google.protobuf.Empty) returns (PendingItems) {}

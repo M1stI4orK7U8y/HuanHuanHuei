@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package database.types.record;
 
-import "src/database/types/reply.proto";
+import "src/database/types/reply/reply.proto";
 
 option go_package = "record";
 
