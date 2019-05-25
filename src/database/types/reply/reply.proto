@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package database.types;
 
-option go_package = "types";
+option go_package = "reply";
 
 message Reply {
     bool success = 1;
