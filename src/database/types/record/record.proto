@@ -9,7 +9,7 @@ option go_package = "record";
 service Database {
     rpc GetRecord (RecordID) returns (RecordDatum) {}
     rpc GetRecords (RecordIDs) returns (RecordData) {}
-    rpc UpdateRecord (RecordDatum) returns (database.types.Reply) {}
+    rpc UpdateRecord (RecordDatum) returns (database.types.reply.Reply) {}
 }
 
 message RecordDatum {

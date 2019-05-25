@@ -9,8 +9,8 @@ import "src/database/types/reply/reply.proto";
 
 service Database {
     rpc GetPendings (google.protobuf.Empty) returns (PendingItems) {}
-    rpc UpdatePending (PendingItem) returns (database.types.Reply) {}
-    rpc DeletePending (ItemID) returns (database.types.Reply){}
+    rpc UpdatePending (PendingItem) returns (database.types.reply.Reply) {}
+    rpc DeletePending (ItemID) returns (database.types.reply.Reply){}
 }
 
 message PendingItem {

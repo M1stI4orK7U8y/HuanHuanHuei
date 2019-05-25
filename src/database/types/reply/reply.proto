@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package database.types;
+package database.types.reply;
 
 option go_package = "reply";
 
