@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package database.types;
+
+option go_package = "types";
+
+message Reply {
+    bool success = 1;
+    string message = 2;
+    string error = 3;
+}

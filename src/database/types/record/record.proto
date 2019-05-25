@@ -2,12 +2,14 @@ syntax = "proto3";
 
 package database.types.record;
 
+import "src/database/types/reply.proto";
+
 option go_package = "record";
 
 service Database {
     rpc GetRecord (RecordID) returns (RecordDatum) {}
     rpc GetRecords (RecordIDs) returns (RecordData) {}
-    rpc UpdateRecord (RecordDatum) returns (RecordID) {}
+    rpc UpdateRecord (RecordDatum) returns (database.types.Reply) {}
 }
 
 message RecordDatum {
