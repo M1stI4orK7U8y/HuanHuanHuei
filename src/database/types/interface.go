@@ -4,5 +4,5 @@ package types
 type IRecordType interface {
 	Marshal() ([]byte, error)
 	Unmarshal(input []byte)
-	GetID() string
+	GetId() string
 }
