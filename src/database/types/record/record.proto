@@ -11,11 +11,11 @@ service Database {
 }
 
 message RecordDatum {
-    Record reply = 1;
+    Record record = 1;
 }
 
 message RecordData {
-    repeated Record replies = 1;
+    repeated Record records = 1;
 }
 
 message RecordID {
