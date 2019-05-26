@@ -2,7 +2,7 @@ package types
 
 // IRecordType interface of record types
 type IRecordType interface {
-	Marshal() ([]byte, error)
-	Unmarshal(input []byte)
+	Serialize() ([]byte, error)
+	Deserialize(input []byte)
 	GetId() string
 }

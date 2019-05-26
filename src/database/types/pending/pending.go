@@ -1,21 +1,23 @@
 package pending
 
-import "encoding/json"
+import (
+	proto "github.com/golang/protobuf/proto"
+)
 
-// Marshal Marshal Pending
-func (p *Pending) Marshal() ([]byte, error) {
-	return json.Marshal(p)
+// Serialize Serial Pending
+func (p *Pending) Serialize() ([]byte, error) {
+	return proto.Marshal(p)
 }
 
-// Unmarshal Unmarshal Pending
-func (p *Pending) Unmarshal(input []byte) {
-	json.Unmarshal(input, p)
+// Deserialize Deserial Pending
+func (p *Pending) Deserialize(input []byte) {
+	proto.Unmarshal(input, p)
 }
 
 // NewPending get new pending with json str
 func NewPending(input []byte) *Pending {
 	ret := new(Pending)
-	ret.Unmarshal(input)
+	ret.Deserialize(input)
 
 	return ret
 }

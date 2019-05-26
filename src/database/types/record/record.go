@@ -1,24 +1,26 @@
 package record
 
-import "encoding/json"
+import (
+	"github.com/golang/protobuf/proto"
+)
 
 // temp := new(protobuf.RecordReply)
 // bytes, _ := json.Marshal(ret)
 // json.Unmarshal(bytes, temp)
 
-// Marshal Marshal Record
-func (r *Record) Marshal() ([]byte, error) {
-	return json.Marshal(r)
+// Serialize Marshal Record
+func (r *Record) Serialize() ([]byte, error) {
+	return proto.Marshal(r)
 }
 
-// Unmarshal Unmarshal Record
-func (r *Record) Unmarshal(input []byte) {
-	json.Unmarshal(input, r)
+// Deserialize Unmarshal Record
+func (r *Record) Deserialize(input []byte) {
+	proto.Unmarshal(input, r)
 }
 
 // NewRecord get new record with json str
 func NewRecord(input []byte) *Record {
 	ret := new(Record)
-	ret.Unmarshal(input)
+	ret.Deserialize(input)
 	return ret
 }

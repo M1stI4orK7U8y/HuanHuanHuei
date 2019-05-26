@@ -2,12 +2,12 @@ package record
 
 import "encoding/json"
 
-// Marshal Marshal TokenDetail
-func (td *TokenDetail) Marshal() ([]byte, error) {
+// Serialize Marshal TokenDetail
+func (td *TokenDetail) Serialize() ([]byte, error) {
 	return json.Marshal(td)
 }
 
-// Unmarshal Unmarshal TokenDetail
-func (td *TokenDetail) Unmarshal(input []byte) {
+// Deserialize Unmarshal TokenDetail
+func (td *TokenDetail) Deserialize(input []byte) {
 	json.Unmarshal(input, td)
 }

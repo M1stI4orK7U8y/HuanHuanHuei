@@ -28,6 +28,7 @@ func Instance() *Dao {
 	once.Do(func() {
 		instance = &Dao{}
 		instance.db, _ = bolt.Open(dbname, 0600, nil)
+		defer instance.Close()
 	})
 	return instance
 }

@@ -26,7 +26,7 @@ func (d *Dao) update(input types.IRecordType, bname string) error {
 			b = newBucket
 		}
 		// write to database
-		save, _ := input.Marshal()
+		save, _ := input.Serialize()
 		return b.Put([]byte(input.GetId()), save)
 	})
 }

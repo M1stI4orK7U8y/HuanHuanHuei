@@ -16,6 +16,11 @@ type Server struct {
 	svc *service.Service
 }
 
+// NewServer get new database server
+func NewServer() *Server {
+	return &Server{svc: &service.Service{}}
+}
+
 // GetPendings get all pending items
 func (s *Server) GetPendings(ctx context.Context, _ *empty.Empty) (*pending.PendingItems, error) {
 	list, err := s.svc.GetPendings()
