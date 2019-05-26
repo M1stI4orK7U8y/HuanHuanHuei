@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"sync"
 
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/service"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/pending"
@@ -11,14 +12,25 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 )
 
+var instance *Server
+var once sync.Once
+
 // Server contrustor
 type Server struct {
 	svc *service.Service
 }
 
-// NewServer get new database server
-func NewServer() *Server {
-	return &Server{svc: &service.Service{}}
+// Instance get grpc server instance
+func Instance() *Server {
+	once.Do(func() {
+		instance = &Server{svc: &service.Service{}}
+	})
+	return instance
+}
+
+// Close close grpc server
+func (s *Server) Close() {
+	s.svc.Close()
 }
 
 // GetPendings get all pending items

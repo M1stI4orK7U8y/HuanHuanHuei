@@ -24,8 +24,10 @@ func grpcproc() {
 
 	// register database server
 	s := grpc.NewServer()
-	rdpro.RegisterDatabaseServer(s, dbgrpc.NewServer())
-	pendpro.RegisterDatabaseServer(s, dbgrpc.NewServer())
+	rdpro.RegisterDatabaseServer(s, dbgrpc.Instance())
+	pendpro.RegisterDatabaseServer(s, dbgrpc.Instance())
+	// close grpc server
+	defer dbgrpc.Instance().Close()
 
 	// // register reflection service
 	reflection.Register(s)
