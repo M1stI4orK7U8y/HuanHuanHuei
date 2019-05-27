@@ -21,14 +21,14 @@ type dbconfig struct {
 // getConfig config Instance
 func getConfig() *config {
 	once.Do(func() {
-		viper.SetConfigName("config") // 设置配置文件名 (不带后缀)
-		viper.AddConfigPath(".")      // 第一个搜索路径
-		err := viper.ReadInConfig()   // 读取配置数据
+		viper.SetConfigName("config") // config file name w/o extension
+		viper.AddConfigPath(".")      // config file path
+		err := viper.ReadInConfig()   // read config
 		if err != nil {
 			panic(fmt.Errorf("Fatal error config file: %s", err))
 		}
 		instance = new(config)
-		viper.Unmarshal(instance) // 将配置信息绑定到结构体上
+		viper.Unmarshal(instance) // load config to config object
 	})
 	return instance
 }
