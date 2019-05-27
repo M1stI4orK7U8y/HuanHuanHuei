@@ -1,0 +1,2 @@
+db:
+  gprcurl: "url-to-grpc:port"
