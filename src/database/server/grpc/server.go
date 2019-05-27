@@ -51,7 +51,7 @@ func (s *Server) GetPendings(ctx context.Context, _ *empty.Empty) (*pending.Pend
 
 // GetRecord get single record
 func (s *Server) GetRecord(ctx context.Context, id *record.RecordID) (*record.RecordDatum, error) {
-	r, err := s.svc.GetRecord(id.Txhash)
+	r, err := s.svc.GetRecord(id.Id)
 
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (s *Server) GetRecord(ctx context.Context, id *record.RecordID) (*record.Re
 // GetRecords get multiple records
 func (s *Server) GetRecords(ctx context.Context, ids *record.RecordIDs) (*record.RecordData, error) {
 	ret := new(record.RecordData)
-	for _, v := range ids.Txhashes {
+	for _, v := range ids.Ids {
 		r, _ := s.svc.GetRecord(v)
 		ret.Records = append(ret.Records, record.NewRecord(r))
 	}

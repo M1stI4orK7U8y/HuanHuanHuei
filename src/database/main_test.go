@@ -69,7 +69,7 @@ func TestGetRecord(t *testing.T) {
 	defer conn.Close()
 	c := rdpro.NewDatabaseClient(conn)
 	datum := new(rdpro.RecordID)
-	datum.Txhash = "123456"
+	datum.Id = "123456"
 	_, err = c.GetRecord(context.Background(), datum)
 	if err != nil {
 		t.Errorf("GetRecord failed: %s", err.Error())
@@ -88,7 +88,7 @@ func TestGetRecords(t *testing.T) {
 	defer conn.Close()
 	c := rdpro.NewDatabaseClient(conn)
 	datum := new(rdpro.RecordIDs)
-	datum.Txhashes = []string{"123456", "7891011"}
+	datum.Ids = []string{"123456", "7891011"}
 	_, err = c.GetRecords(context.Background(), datum)
 	if err != nil {
 		t.Errorf("GetRecords failed: %s", err.Error())
@@ -152,17 +152,3 @@ func TestDeletePending(t *testing.T) {
 	}
 	// Test for output here.
 }
-
-// func TestUpdateRecord(t *testing.T) {
-// 	s := dbgrpc.NewServer()
-// 	// set up test cases
-
-// 	datum := new(rdpro.RecordDatum)
-// 	datum.Record = &rdpro.Record{Id: "123456"}
-// 	resp, err := s.UpdateRecord(context.Background(), datum)
-// 	if err != nil {
-// 		t.Errorf("HelloTest(%v) got unexpected error", err.Error())
-// 	} else {
-// 		t.Logf("Success %s", resp.Message)
-// 	}
-// }
