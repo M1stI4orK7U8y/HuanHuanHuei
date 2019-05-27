@@ -11,7 +11,8 @@ var instance *config
 var once sync.Once
 
 type config struct {
-	DB *dbconfig `json:"db"`
+	Port int32     `json:"port"`
+	DB   *dbconfig `json:"db"`
 }
 
 type dbconfig struct {
