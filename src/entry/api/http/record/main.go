@@ -32,5 +32,12 @@ func getRecord(w http.ResponseWriter, r *http.Request) {
 }
 
 func getRecords(w http.ResponseWriter, r *http.Request) {
-	render.PlainText(w, r, "test")
+	r.ParseForm()
+	ret, err := service.GetRecords(r.Form["ids"])
+	if err != nil {
+		http.Error(w, http.StatusText(500)+": "+err.Error(), 500)
+	} else {
+		render.JSON(w, r, ret)
+	}
+
 }
