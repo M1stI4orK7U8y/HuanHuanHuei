@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package database.types.pending;
+
+option go_package = "pending";
+
+import "vendor/protobuf/include/google/protobuf/empty.proto";
+import "src/database/types/reply/reply.proto";
+
+service Database {
+    rpc GetPendings (google.protobuf.Empty) returns (PendingItems) {}
+    rpc UpdatePending (PendingItem) returns (database.types.reply.Reply) {}
+    rpc DeletePending (ItemID) returns (database.types.reply.Reply){}
+}
+
+message PendingItem {
+    Pending item = 1;
+}
+
+message PendingItems {
+    repeated Pending items = 1;
+}
+
+message ItemID {
+    string id = 1;
+}
+
+message Pending {
+    string id = 1;   // id == record.id == record.fromToken.txhash
+    int64 pendingTime = 2;
+}
