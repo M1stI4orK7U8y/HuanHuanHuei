@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"strconv"
 	"sync"
 
 	"github.com/spf13/viper"
@@ -11,7 +12,7 @@ var instance *config
 var once sync.Once
 
 type config struct {
-	Port int32     `json:"port"`
+	Port int64     `json:"port"`
 	DB   *dbconfig `json:"db"`
 }
 
@@ -32,6 +33,12 @@ func getConfig() *config {
 		viper.Unmarshal(instance) // load config to config object
 	})
 	return instance
+}
+
+// Port port number
+func Port() string {
+	port := getConfig().Port
+	return strconv.FormatInt(port, 10)
 }
 
 // DBGrpcURL get db grpc url
