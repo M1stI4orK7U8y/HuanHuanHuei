@@ -5,9 +5,9 @@ import (
 	"sync"
 
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/service"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/pending"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/record"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/reply"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/reply"
 
 	"github.com/golang/protobuf/ptypes/empty"
 )
