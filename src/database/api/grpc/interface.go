@@ -1,4 +1,4 @@
-package types
+package grpc
 
 // IRecordType interface of record types
 type IRecordType interface {

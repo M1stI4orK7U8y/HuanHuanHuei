@@ -2,8 +2,8 @@ package service
 
 import (
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/dao"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/pending"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types/record"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 )
 
 // UpdateRecord update record

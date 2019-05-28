@@ -2,7 +2,7 @@ package dao
 
 import (
 	"github.com/boltdb/bolt"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/types"
+	types "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc"
 )
 
 // UpdateRecord add / update a record

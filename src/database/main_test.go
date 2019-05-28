@@ -8,8 +8,8 @@ import (
 	"time"
 
 	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
-	pdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/pending"
-	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/record"
+	pdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
+	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
