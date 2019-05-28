@@ -3,6 +3,10 @@ package main
 import (
 	"log"
 	"net"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -32,7 +36,25 @@ func grpcproc() {
 	// // register reflection service
 	reflection.Register(s)
 
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("%v", err)
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("%v", err)
+		}
+	}()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	for {
+		s := <-c
+		log.Printf("get a signal %s", s.String())
+		switch s {
+		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
+			log.Printf("database grpc service exit")
+			time.Sleep(time.Second)
+			return
+		case syscall.SIGHUP:
+		default:
+			return
+		}
 	}
 }
