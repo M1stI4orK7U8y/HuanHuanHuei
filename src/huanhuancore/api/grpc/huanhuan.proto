@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package api.grpc.huanhuan;
+
+import "src/database/api/grpc/reply/reply.proto";
+
+option go_package = "huanhuan";
+
+service Huanhuan {
+    rpc DoHuanHuan (HuanHuanRequest) returns (api.grpc.reply.Reply) {}
+}
+
+message HuanHuanRequest {
+    TokenType from = 1;
+    string fromTxid = 2;
+    TokenType to = 3;
+    string receiver = 4; // receiver address of token type "to"   
+}
+
+enum TokenType {
+    BTC = 0;
+    ETH = 1;
+    ERC20 = 2;
+}
