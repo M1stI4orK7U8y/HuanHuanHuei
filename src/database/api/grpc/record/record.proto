@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package database.types.record;
+package api.grpc.record;
 
-import "src/database/types/reply/reply.proto";
+import "src/database/api/grpc/reply/reply.proto";
 
 option go_package = "record";
 
 service Database {
     rpc GetRecord (RecordID) returns (RecordDatum) {}
     rpc GetRecords (RecordIDs) returns (RecordData) {}
-    rpc UpdateRecord (RecordDatum) returns (database.types.reply.Reply) {}
+    rpc UpdateRecord (RecordDatum) returns (api.grpc.reply.Reply) {}
 }
 
 message RecordDatum {

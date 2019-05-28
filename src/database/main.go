@@ -12,8 +12,8 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
-	pendpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/pending"
-	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/record"
+	pendpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
+	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 )
 
 func main() {

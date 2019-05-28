@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/packtumi9722/huanhuanhuei/src/entry/client/grpc"
 
-	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/types/record"
+	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 )
 
 // GetRecord get record by id

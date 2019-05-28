@@ -1,16 +1,16 @@
 syntax = "proto3";
 
-package database.types.pending;
+package api.grpc.pending;
 
 option go_package = "pending";
 
 import "vendor/protobuf/include/google/protobuf/empty.proto";
-import "src/database/types/reply/reply.proto";
+import "src/database/api/grpc/reply/reply.proto";
 
 service Database {
     rpc GetPendings (google.protobuf.Empty) returns (PendingItems) {}
-    rpc UpdatePending (PendingItem) returns (database.types.reply.Reply) {}
-    rpc DeletePending (ItemID) returns (database.types.reply.Reply){}
+    rpc UpdatePending (PendingItem) returns (api.grpc.reply.Reply) {}
+    rpc DeletePending (ItemID) returns (api.grpc.reply.Reply){}
 }
 
 message PendingItem {
