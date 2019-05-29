@@ -5,27 +5,23 @@ package api.grpc.pending;
 option go_package = "pending";
 
 import "vendor/protobuf/include/google/protobuf/empty.proto";
-import "src/database/api/grpc/reply/reply.proto";
+import "src/database/model/reply/reply.proto";
+import "src/database/model/pending/pending.proto";
 
 service Database {
     rpc GetPendings (google.protobuf.Empty) returns (PendingItems) {}
-    rpc UpdatePending (PendingItem) returns (api.grpc.reply.Reply) {}
-    rpc DeletePending (ItemID) returns (api.grpc.reply.Reply){}
+    rpc UpdatePending (PendingItem) returns (model.reply.Reply) {}
+    rpc DeletePending (ItemID) returns (model.reply.Reply){}
 }
 
 message PendingItem {
-    Pending item = 1;
+    model.pending.Pending item = 1;
 }
 
 message PendingItems {
-    repeated Pending items = 1;
+    repeated model.pending.Pending items = 1;
 }
 
 message ItemID {
     string id = 1;
-}
-
-message Pending {
-    string id = 1;   // id == record.id == record.fromToken.txhash
-    int64 pendingTime = 2;
 }
