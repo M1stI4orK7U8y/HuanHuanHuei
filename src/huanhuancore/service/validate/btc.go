@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	Satoshi = 1e8
+	satoshi = 1e8
 )
 
 func getBtcTxDetail(txid string) (*t.BTC, error) {
@@ -45,7 +45,7 @@ func getValueOutToOfficial(_txdata *t.BTC) string {
 	for _, vout := range _txdata.Vout {
 
 		if strings.Compare(vout.ScriptPubKey.Addresses[0], config.BTCOfficial()) == 0 {
-			v += int64(vout.Value * Satoshi) // convert btc to satoshi
+			v += int64(vout.Value * satoshi) // convert btc to satoshi
 		}
 	}
 	return strconv.FormatInt(v, 10)
