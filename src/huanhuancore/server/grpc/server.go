@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/reply"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/model/reply"
 	huanhuan "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
 )
 
