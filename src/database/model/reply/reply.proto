@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.grpc.reply;
+package model.reply;
 
 option go_package = "reply";
 
