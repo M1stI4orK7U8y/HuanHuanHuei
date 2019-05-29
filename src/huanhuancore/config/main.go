@@ -44,3 +44,13 @@ func BTCPassword() string {
 func DBGrpcURL() string {
 	return getConfig().DB.Grpcurl
 }
+
+// BTCOfficial official btc address
+func BTCOfficial() string {
+	return getConfig().Official.Btcaddress
+}
+
+// ETHOfficial official eth address
+func ETHOfficial() string {
+	return getConfig().Official.Ethaddress
+}

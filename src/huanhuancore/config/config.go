@@ -1,8 +1,9 @@
 package config
 
 type config struct {
-	BTC *btcconfig `json:"btc"`
-	DB  *dbconfig  `json:"db"`
+	BTC      *btcconfig `json:"btc"`
+	DB       *dbconfig  `json:"db"`
+	Official *official  `json:"official"`
 }
 
 type btcconfig struct {

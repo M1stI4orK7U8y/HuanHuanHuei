@@ -7,7 +7,8 @@ import (
 	cf "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/config"
 )
 
-func btcrpc() jsonrpc.RPCClient {
+// BTCRPC btc rpc connection
+func BTCRPC() jsonrpc.RPCClient {
 	return jsonrpc.NewClientWithOpts(cf.BTCURL(), &jsonrpc.RPCClientOpts{
 		CustomHeaders: map[string]string{
 			"Authorization": "Basic " + base64.StdEncoding.EncodeToString([]byte(cf.BTCUser()+":"+cf.BTCPassword())),
