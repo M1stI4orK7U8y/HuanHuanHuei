@@ -1,0 +1,6 @@
+btc:
+  rpcurl: "url-to-btc-client:port"
+  username: "btc-rpc-user"
+  password: "btc-rpc-passord"
+db:
+  grpcurl: "url-to-grpc:port"
