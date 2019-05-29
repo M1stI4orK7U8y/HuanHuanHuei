@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package model.token;
+
+option go_package = "token";
+
+message BTC {
+    string txid = 1;
+    int64 locktime = 2;
+    string blockhash = 3;
+    int64 confirmations = 4;
+    repeated Vout vout = 5;
+}
+
+message Vout {
+    double value = 1;
+    ScriptPubKey scriptPubKey = 2;
+
+}
+
+message ScriptPubKey {
+    repeated string addresses = 1;
+}
