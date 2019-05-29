@@ -1,4 +1,4 @@
-package service
+package validate
 
 import (
 	"strings"
@@ -7,7 +7,12 @@ import (
 	t "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
 )
 
-func validInputTx(input *r.HuanHuanRequest) bool {
+// ValidateInputTx validate input tx
+func CheckInputTx(input *r.HuanHuanRequest) bool {
+	if input == nil {
+		return false
+	}
+
 	switch input.From {
 	case t.TokenType_BTC:
 		tx, err := getBtcTxDetail(input.FromTxid)

@@ -1,4 +1,4 @@
-package service
+package validate
 
 import (
 	"encoding/json"

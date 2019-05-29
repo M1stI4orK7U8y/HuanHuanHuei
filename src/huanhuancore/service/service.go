@@ -3,6 +3,8 @@ package service
 import (
 	"encoding/json"
 	"net/http"
+
+	token "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
 )
 
 // Service service for db operation
@@ -31,4 +33,21 @@ func getrate(from, to string) float64 {
 	// {"ethereum":{"btc":0.0312016}}
 	// get the value of vs currency
 	return target.(map[string]interface{})[fullname[from]].(map[string]interface{})[to].(float64)
+}
+
+func validReceiver(t token.TokenType, address string) bool {
+
+	if len(address) == 0 {
+		return false
+	}
+
+	switch t {
+	case token.TokenType_BTC:
+		fallthrough
+	case token.TokenType_ETH:
+	default:
+		return false
+	}
+
+	return true
 }
