@@ -28,7 +28,6 @@ func getConfig() *config {
 // BTCURL btc rpc url
 func BTCURL() string {
 	return getConfig().BTC.Rpcurl
-
 }
 
 //BTCUser btc rpc user
