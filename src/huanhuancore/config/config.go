@@ -14,3 +14,8 @@ type btcconfig struct {
 type dbconfig struct {
 	Grpcurl string `json:"grpcurl"`
 }
+
+type official struct {
+	Btcaddress string `json:"btcaddress"`
+	Ethaddress string `json:"ethaddress"`
+}

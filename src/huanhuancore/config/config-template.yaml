@@ -4,3 +4,6 @@ btc:
   password: "btc-rpc-passord"
 db:
   grpcurl: "url-to-grpc:port"
+official:
+  btcaddress: "official-btc-address"
+  ethaddress: "official-eth-address"
