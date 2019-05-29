@@ -5,8 +5,8 @@ import (
 	"sync"
 
 	// api
-	papi "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
-	rapi "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
+	pgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
+	rgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 
 	// model
 	pmodel "gitlab.com/packtumi9722/huanhuanhuei/src/database/model/pending"
@@ -40,14 +40,14 @@ func (s *Server) Close() {
 }
 
 // GetPendings get all pending items
-func (s *Server) GetPendings(ctx context.Context, _ *empty.Empty) (*papi.PendingItems, error) {
+func (s *Server) GetPendings(ctx context.Context, _ *empty.Empty) (*pgrpc.PendingItems, error) {
 	list, err := s.svc.GetPendings()
 
 	if err != nil {
 		return nil, err
 	}
 
-	ret := new(papi.PendingItems)
+	ret := new(pgrpc.PendingItems)
 	for _, v := range list {
 		ret.Items = append(ret.Items, pmodel.NewPending(v))
 	}
@@ -56,18 +56,18 @@ func (s *Server) GetPendings(ctx context.Context, _ *empty.Empty) (*papi.Pending
 }
 
 // GetRecord get single record
-func (s *Server) GetRecord(ctx context.Context, id *rapi.RecordID) (*rapi.RecordDatum, error) {
+func (s *Server) GetRecord(ctx context.Context, id *rgrpc.RecordID) (*rgrpc.RecordDatum, error) {
 	r, err := s.svc.GetRecord(id.Id)
 
 	if err != nil {
 		return nil, err
 	}
-	return &rapi.RecordDatum{Record: rmodel.NewRecord(r)}, nil
+	return &rgrpc.RecordDatum{Record: rmodel.NewRecord(r)}, nil
 }
 
 // GetRecords get multiple records
-func (s *Server) GetRecords(ctx context.Context, ids *rapi.RecordIDs) (*rapi.RecordData, error) {
-	ret := new(rapi.RecordData)
+func (s *Server) GetRecords(ctx context.Context, ids *rgrpc.RecordIDs) (*rgrpc.RecordData, error) {
+	ret := new(rgrpc.RecordData)
 	for _, v := range ids.Ids {
 		r, _ := s.svc.GetRecord(v)
 		ret.Records = append(ret.Records, rmodel.NewRecord(r))
@@ -76,7 +76,7 @@ func (s *Server) GetRecords(ctx context.Context, ids *rapi.RecordIDs) (*rapi.Rec
 }
 
 // UpdatePending update pending item
-func (s *Server) UpdatePending(ctx context.Context, item *papi.PendingItem) (*reply.Reply, error) {
+func (s *Server) UpdatePending(ctx context.Context, item *pgrpc.PendingItem) (*reply.Reply, error) {
 	err := s.svc.UpdatePending(item.Item)
 	if err != nil {
 		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
@@ -85,7 +85,7 @@ func (s *Server) UpdatePending(ctx context.Context, item *papi.PendingItem) (*re
 }
 
 // UpdateRecord update/insert a record
-func (s *Server) UpdateRecord(ctx context.Context, datum *rapi.RecordDatum) (*reply.Reply, error) {
+func (s *Server) UpdateRecord(ctx context.Context, datum *rgrpc.RecordDatum) (*reply.Reply, error) {
 	err := s.svc.UpdateRecord(datum.Record)
 	if err != nil {
 		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
@@ -94,7 +94,7 @@ func (s *Server) UpdateRecord(ctx context.Context, datum *rapi.RecordDatum) (*re
 }
 
 // DeletePending delete pending item
-func (s *Server) DeletePending(ctx context.Context, id *papi.ItemID) (*reply.Reply, error) {
+func (s *Server) DeletePending(ctx context.Context, id *pgrpc.ItemID) (*reply.Reply, error) {
 	err := s.svc.DeletePending(id.Id)
 	if err != nil {
 		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
