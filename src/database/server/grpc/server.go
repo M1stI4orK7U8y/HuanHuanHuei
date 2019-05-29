@@ -5,9 +5,7 @@ import (
 	"sync"
 
 	// api
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
 	papi "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 	rapi "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 
 	// model
@@ -78,7 +76,7 @@ func (s *Server) GetRecords(ctx context.Context, ids *rapi.RecordIDs) (*rapi.Rec
 }
 
 // UpdatePending update pending item
-func (s *Server) UpdatePending(ctx context.Context, item *pending.PendingItem) (*reply.Reply, error) {
+func (s *Server) UpdatePending(ctx context.Context, item *papi.PendingItem) (*reply.Reply, error) {
 	err := s.svc.UpdatePending(item.Item)
 	if err != nil {
 		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
@@ -87,7 +85,7 @@ func (s *Server) UpdatePending(ctx context.Context, item *pending.PendingItem) (
 }
 
 // UpdateRecord update/insert a record
-func (s *Server) UpdateRecord(ctx context.Context, datum *record.RecordDatum) (*reply.Reply, error) {
+func (s *Server) UpdateRecord(ctx context.Context, datum *rapi.RecordDatum) (*reply.Reply, error) {
 	err := s.svc.UpdateRecord(datum.Record)
 	if err != nil {
 		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
@@ -96,7 +94,7 @@ func (s *Server) UpdateRecord(ctx context.Context, datum *record.RecordDatum) (*
 }
 
 // DeletePending delete pending item
-func (s *Server) DeletePending(ctx context.Context, id *pending.ItemID) (*reply.Reply, error) {
+func (s *Server) DeletePending(ctx context.Context, id *papi.ItemID) (*reply.Reply, error) {
 	err := s.svc.DeletePending(id.Id)
 	if err != nil {
 		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
