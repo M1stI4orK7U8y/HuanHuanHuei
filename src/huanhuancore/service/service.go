@@ -71,16 +71,13 @@ func validReceiver(tt t.TokenType, address string) bool {
 	return true
 }
 
-func getTxDetail(tt t.TokenType, txid string) interface{} {
+func getTxDetail(tt t.TokenType, txid string) (interface{}, error) {
 	switch tt {
 	case t.TokenType_BTC:
-		ret, err := btc.GetBtcTxDetail(txid)
-		if err != nil {
-			return ret
-		}
+		return btc.GetBtcTxDetail(txid)
 	case t.TokenType_ETH:
 	}
-	return nil
+	return nil, nil
 }
 
 func createRecord(from, to t.TokenType, receiver string, tx interface{}) *rd.Record {
@@ -100,6 +97,7 @@ func createBTCRecord(totoken t.TokenType, receiver string, tx *token.BTC) *rd.Re
 	ret.Id = tx.Txid
 
 	// from
+	ret.FromToken = new(rd.TokenDetail)
 	ret.FromToken.Txhash = tx.Txid
 	// get vin[0] address as sender address
 	vintx, _ := btc.GetBtcTxDetail(tx.Vin[0].Txid)
@@ -109,6 +107,7 @@ func createBTCRecord(totoken t.TokenType, receiver string, tx *token.BTC) *rd.Re
 	ret.FromToken.TokenValue = btc.GetValueOutToOfficial(tx)
 
 	// to
+	ret.ToToken = new(rd.TokenDetail)
 	ret.ToToken.TokenType = totoken
 	ret.ToToken.Address = receiver
 	ret.ToToken.TokenDecimal = token.Decimal[totoken]
@@ -125,10 +124,15 @@ func createBTCRecord(totoken t.TokenType, receiver string, tx *token.BTC) *rd.Re
 }
 
 func calculateTargetValue(exrate float64, from, to t.TokenType, fromvalue string) string {
-	ori, _ := new(big.Float).SetString(fromvalue)                                                            // big number
-	little := new(big.Float).Quo(ori, big.NewFloat(math.Pow10(int(token.Decimal[from]))))                    // to float
-	exchangelittle := new(big.Float).Mul(little, big.NewFloat(exrate))                                       // calculate
-	return new(big.Float).Mul(exchangelittle, big.NewFloat(math.Pow10(int(token.Decimal[to])))).Text('f', 0) // to target big number
+	ori, _ := new(big.Float).SetString(fromvalue)                                         // big number
+	little := new(big.Float).Quo(ori, big.NewFloat(math.Pow10(int(token.Decimal[from])))) // to float
+	exchangelittle := new(big.Float).Mul(little, big.NewFloat(exrate))                    // calculate
+	// convert to string and use this string to generate a big.Float
+	// avoid float trailing problem
+	convstr, _ := new(big.Float).SetString(exchangelittle.String())
+	exchangebig := new(big.Float).Mul(convstr, big.NewFloat(math.Pow10(int(token.Decimal[to])))).Text('f', 0) // to target big number
+	sendValue, _ := new(big.Int).SetString(exchangebig, 10)
+	return sendValue.String()
 }
 
 func sendtoreceiver(to t.TokenType, address, value string) (string, error) {

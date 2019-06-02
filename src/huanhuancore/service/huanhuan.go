@@ -22,7 +22,7 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 	}
 
 	// get the tx detail
-	intx := getTxDetail(input.From, input.FromTxid)
+	intx, _ := getTxDetail(input.From, input.FromTxid)
 
 	// do first check
 	firsterr := firstcheck(input, intx)
@@ -39,7 +39,7 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 	// to do: not so important
 
 	// send to receiver
-	senthash, err := sendtoreceiver(input.To, req.Record.ToToken.TokenValue, input.Receiver)
+	senthash, err := sendtoreceiver(input.To, input.Receiver, req.Record.ToToken.TokenValue)
 	if err != nil {
 		req.Record.StatusCode = rd.StatusCode_FAIL
 		req.Record.StatusTime.FailedTime = time.Now().UTC().Unix()
