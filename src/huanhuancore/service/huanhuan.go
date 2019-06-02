@@ -20,8 +20,26 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 		return errors.New("DoHuanHuan input nil pointer")
 	}
 
+	// get the tx detail
 	intx := getTxDetail(input.From, input.FromTxid)
 
+	// do first check
+	firsterr := firstcheck(input, intx)
+	if firsterr != nil {
+		return firsterr
+	}
+
+	// insert to database
+	req := new(rdquest.RecordDatum)
+	req.Record = createRecord(input.From, input.To, input.Receiver, intx)
+	grpc.UpdateRecord(req)
+
+	// send to receiver
+
+	return nil
+}
+
+func firstcheck(input *huanhuan.HuanHuanRequest, intx interface{}) error {
 	// check input tx
 	if intx != nil || validate.CheckInputTx(input.From, intx) == false {
 		return errors.New("validate input tx error")
@@ -30,11 +48,5 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 	if validReceiver(input.To, input.Receiver) == false {
 		return errors.New("validate receiver data error")
 	}
-
-	// insert to database
-	req := new(rdquest.RecordDatum)
-	req.Record = createRecord(input.From, input.To, input.Receiver, intx)
-	grpc.UpdateRecord(req)
-
 	return nil
 }
