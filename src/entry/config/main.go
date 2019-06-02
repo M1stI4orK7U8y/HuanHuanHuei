@@ -9,3 +9,8 @@ func Port() string {
 func DBGrpcURL() string {
 	return getConfig().DB.Grpcurl
 }
+
+// CoreGrpcURL get core grpc url
+func CoreGrpcURL() string {
+	return getConfig().Core.Grpcurl
+}
