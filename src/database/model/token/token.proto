@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package model.token;
+
+option go_package = "token";
+
+enum TokenType {
+    BTC = 0;
+    ETH = 1;
+    ERC20 = 2;
+}

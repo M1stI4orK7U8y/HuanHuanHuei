@@ -11,17 +11,7 @@ var instance *config
 var once sync.Once
 
 type config struct {
-	Port string      `json:"port"`
-	DB   *dbconfig   `json:"db"`
-	Core *coreconfig `json:"core"`
-}
-
-type dbconfig struct {
-	Grpcurl string `json:"grpcurl"`
-}
-
-type coreconfig struct {
-	Grpcurl string `json:"grpcurl"`
+	Port string `json:"port"`
 }
 
 // getConfig config Instance

@@ -11,10 +11,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	pendpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
-	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/database/config"
-	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
+	huangrpc "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
+	huanserver "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/server/grpc"
+
+	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/config"
 )
 
 func main() {
@@ -29,10 +29,9 @@ func grpcproc() {
 
 	// register database server
 	s := grpc.NewServer()
-	rdpro.RegisterDatabaseServer(s, dbgrpc.Instance())
-	pendpro.RegisterDatabaseServer(s, dbgrpc.Instance())
+	huangrpc.RegisterHuanhuanServer(s, huanserver.Instance())
+	//pendpro.RegisterDatabaseServer(s, dbgrpc.Instance())
 	// close grpc server
-	defer dbgrpc.Instance().Close()
 
 	// // register reflection service
 	reflection.Register(s)
@@ -50,7 +49,7 @@ func grpcproc() {
 		log.Printf("get a signal %s", s.String())
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			log.Printf("database grpc service exit")
+			log.Printf("huanhuan grpc service exit")
 			time.Sleep(time.Second)
 			return
 		case syscall.SIGHUP:

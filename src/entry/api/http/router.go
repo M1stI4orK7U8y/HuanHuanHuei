@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
+	"gitlab.com/packtumi9722/huanhuanhuei/src/entry/api/http/huanhuan"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/entry/api/http/record"
 )
 
@@ -25,6 +26,7 @@ func routes() *chi.Mux {
 
 	router.Route("/api/v1", func(r chi.Router) {
 		r.Mount("/record", record.Routes())
+		r.Mount("/huanhuanhuei", huanhuan.Routes())
 	})
 
 	return router

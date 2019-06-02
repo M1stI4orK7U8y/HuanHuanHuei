@@ -1,0 +1,13 @@
+btc:
+  rpcurl: "url-to-btc-client:port"
+  username: "btc-rpc-user"
+  password: "btc-rpc-passord"
+eth:
+  rpcurl: "url-to-eth-client:port"
+db:
+  grpcurl: "url-to-grpc:port"
+official:
+  btcaddress: "official-btc-address"
+  ethaddress: "official-eth-address"
+  ethsecret: "secret-of-eth-official-address"
+port: ":port"
