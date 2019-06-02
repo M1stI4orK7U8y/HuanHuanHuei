@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.grpc.huanhuan;
+
+import "src/database/model/reply/reply.proto";
+import "src/database/model/token/token.proto";
+
+option go_package = "huanhuan";
+
+service Huanhuan {
+    rpc DoHuanHuan (HuanHuanRequest) returns (model.reply.Reply) {}
+}
+
+message HuanHuanRequest {
+    model.token.TokenType from = 1;
+    string fromTxid = 2;
+    model.token.TokenType to = 3;
+    string receiver = 4; // receiver address of token type "to"   
+}

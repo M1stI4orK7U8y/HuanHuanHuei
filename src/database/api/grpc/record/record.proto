@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.grpc.record;
+
+import "src/database/model/reply/reply.proto";
+import "src/database/model/record/record.proto";
+
+option go_package = "record";
+
+service Database {
+    rpc GetRecord (RecordID) returns (RecordDatum) {}
+    rpc GetRecords (RecordIDs) returns (RecordData) {}
+    rpc UpdateRecord (RecordDatum) returns (model.reply.Reply) {}
+}
+
+message RecordDatum {
+    model.record.Record record = 1;
+}
+
+message RecordData {
+    repeated model.record.Record records = 1;
+}
+
+message RecordID {
+    string id = 1;
+}
+
+message RecordIDs {
+    repeated string ids = 1;
+}

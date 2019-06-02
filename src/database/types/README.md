@@ -1,1 +1,0 @@
-Files in this directory are object definitions for database storage

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package model.record;
+
+import "src/database/model/token/token.proto";
+
+option go_package = "record";
+
+enum StatusCode {
+    NOT_FOUND = 0; 
+    PENDING = 1;
+    CONFIRMED = 2;
+    FINISH = 3;
+    FAIL = 4;
+}
+
+message Record {
+    string id = 1;   // id == fromToken.txhash
+    TokenDetail fromToken = 2;
+    TokenDetail toToken = 3;
+    double exrate = 4;  // fromvalue * exrate = totokenvalue
+    StatusCode statusCode = 5;
+    StatusTime statusTime = 6;
+}
+
+message TokenDetail {
+    string txhash = 1;
+    model.token.TokenType tokenType = 2;
+    string address = 3;
+    string tokenValue = 4;
+    int32 tokenDecimal = 5;
+}
+
+message StatusTime {
+    int64 pendingTime = 1;
+    int64 finishedTime = 2;
+    int64 confirmedTime = 3;
+    int64 failedTime = 4;
+}

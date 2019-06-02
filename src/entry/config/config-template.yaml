@@ -1,0 +1,5 @@
+port: ":port"
+db:
+  grpcurl: "url-to-grpc:port"
+core:
+  grpcurl: "url-to-grpc:port"

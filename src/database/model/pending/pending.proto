@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package model.pending;
+
+option go_package = "pending";
+
+message Pending {
+    string id = 1;   // id == record.id == record.fromToken.txhash
+    int64 pendingTime = 2;
+}
