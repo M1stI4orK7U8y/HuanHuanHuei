@@ -13,6 +13,8 @@ import (
 
 	huangrpc "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
 	huanserver "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/server/grpc"
+
+	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/config"
 )
 
 func main() {
@@ -20,7 +22,7 @@ func main() {
 }
 
 func grpcproc() {
-	lis, err := net.Listen("tcp", ":50053")
+	lis, err := net.Listen("tcp", config.Port())
 	if err != nil {
 		log.Fatalf("%v", err)
 	}

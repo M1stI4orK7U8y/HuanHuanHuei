@@ -11,9 +11,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
 	pendpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
 	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/database/config"
+	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 }
 
 func grpcproc() {
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", config.Port())
 	if err != nil {
 		log.Fatalf("%v", err)
 	}

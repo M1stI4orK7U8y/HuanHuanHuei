@@ -5,6 +5,7 @@ type config struct {
 	ETH      *ethconfig `json:"eth"`
 	DB       *dbconfig  `json:"db"`
 	Official *official  `json:"official"`
+	Port     string     `json:"port"`
 }
 
 type btcconfig struct {

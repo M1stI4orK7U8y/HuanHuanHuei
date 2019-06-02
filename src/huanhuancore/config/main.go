@@ -64,3 +64,8 @@ func ETHSecret() string {
 func ETHURL() string {
 	return getConfig().ETH.Rpcurl
 }
+
+// Port port number
+func Port() string {
+	return getConfig().Port
+}

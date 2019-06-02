@@ -16,4 +16,6 @@ vendor
 
 # local config
 src/entry/config\.yaml
+src/database/config\.yaml
+src/huanhuancore/config\.yaml
 src/database/RECORD\.db

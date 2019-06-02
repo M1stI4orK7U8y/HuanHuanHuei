@@ -26,7 +26,7 @@ func main() {
 	}
 
 	go func() {
-		log.Fatal(http.ListenAndServe(":"+config.Port(), router)) // Note, the port is usually gotten from the environment.
+		log.Fatal(http.ListenAndServe(config.Port(), router)) // Note, the port is usually gotten from the environment.
 	}()
 
 	c := make(chan os.Signal, 1)
