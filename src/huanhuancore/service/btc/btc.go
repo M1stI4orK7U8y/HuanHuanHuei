@@ -11,7 +11,7 @@ import (
 	token "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
 )
 
-// GetBtcTxDetail get btc tx detail
+// GetTxDetail get btc tx detail
 func GetTxDetail(txid string) (*token.BTC, error) {
 	btcrpc := rpc.BTCRPC()
 

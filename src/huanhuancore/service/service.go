@@ -16,6 +16,8 @@ import (
 
 	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/btc"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/eth"
+
+	"github.com/ethereum/go-ethereum/core/types"
 )
 
 // Service service for db operation
@@ -44,31 +46,17 @@ func getrate(from, to t.TokenType) float64 {
 func checkInputTx(input *huanhuan.HuanHuanRequest, intx interface{}) error {
 	switch input.From {
 	case t.TokenType_BTC:
-		if btc.CheckInputTx(input.From, intx) == false {
-			return errors.New("check input tx error")
+		if btc.CheckInputTx(intx.(*token.BTC)) == false {
+			return errors.New("btc check input tx error")
 		}
 	case t.TokenType_ETH:
+		if eth.CheckInputTx(intx.(*types.Transaction)) == false {
+			return errors.New("eth check input tx error")
+		}
 	default:
 		return errors.New("token not support")
 	}
 	return nil
-}
-
-func validReceiver(tt t.TokenType, address string) bool {
-
-	if len(address) == 0 {
-		return false
-	}
-
-	switch tt {
-	case t.TokenType_BTC:
-		fallthrough
-	case t.TokenType_ETH:
-	default:
-		return false
-	}
-
-	return true
 }
 
 func getTxDetail(tt t.TokenType, txid string) (interface{}, error) {
@@ -76,6 +64,8 @@ func getTxDetail(tt t.TokenType, txid string) (interface{}, error) {
 	case t.TokenType_BTC:
 		return btc.GetTxDetail(txid)
 	case t.TokenType_ETH:
+		ret, _, err := eth.GetTxDetail(txid)
+		return ret, err
 	}
 	return nil, nil
 }

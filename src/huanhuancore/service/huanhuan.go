@@ -25,7 +25,7 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 	intx, _ := getTxDetail(input.From, input.FromTxid)
 
 	// do first check
-	firsterr := firstcheck(input, intx)
+	firsterr := checkInputTx(input, intx)
 	if firsterr != nil {
 		return firsterr
 	}
@@ -51,18 +51,5 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 	// update database to final state
 	grpc.UpdateRecord(req)
 
-	return nil
-}
-
-func firstcheck(input *huanhuan.HuanHuanRequest, intx interface{}) error {
-	// check input tx
-	err := checkInputTx(input, intx)
-	if err != nil {
-		return errors.New("btc input tx error")
-	}
-	// check receiver field
-	if validReceiver(input.To, input.Receiver) == false {
-		return errors.New("btc receiver data error")
-	}
 	return nil
 }

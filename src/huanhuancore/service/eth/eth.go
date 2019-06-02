@@ -75,3 +75,8 @@ func GetBalance(_ethaddr string) (string, error) {
 	}
 	return balance.String(), nil
 }
+
+// GetTxDetail get btc tx detail
+func GetTxDetail(txid string) (*types.Transaction, bool, error) {
+	return rpc.GetEthInstance().TransactionByHash(context.Background(), common.HexToHash(txid))
+}
