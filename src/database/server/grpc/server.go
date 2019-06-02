@@ -79,7 +79,7 @@ func (s *Server) GetRecords(ctx context.Context, ids *rgrpc.RecordIDs) (*rgrpc.R
 func (s *Server) UpdatePending(ctx context.Context, item *pgrpc.PendingItem) (*reply.Reply, error) {
 	err := s.svc.UpdatePending(item.Item)
 	if err != nil {
-		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
+		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, err
 	}
 	return &reply.Reply{Success: true, Message: "", Error: ""}, nil
 }
@@ -88,7 +88,7 @@ func (s *Server) UpdatePending(ctx context.Context, item *pgrpc.PendingItem) (*r
 func (s *Server) UpdateRecord(ctx context.Context, datum *rgrpc.RecordDatum) (*reply.Reply, error) {
 	err := s.svc.UpdateRecord(datum.Record)
 	if err != nil {
-		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
+		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, err
 	}
 	return &reply.Reply{Success: true, Message: "", Error: ""}, nil
 }
@@ -97,7 +97,7 @@ func (s *Server) UpdateRecord(ctx context.Context, datum *rgrpc.RecordDatum) (*r
 func (s *Server) DeletePending(ctx context.Context, id *pgrpc.ItemID) (*reply.Reply, error) {
 	err := s.svc.DeletePending(id.Id)
 	if err != nil {
-		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, nil
+		return &reply.Reply{Success: false, Message: "", Error: err.Error()}, err
 	}
 	return &reply.Reply{Success: true, Message: "", Error: ""}, nil
 }
