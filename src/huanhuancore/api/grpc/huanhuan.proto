@@ -3,7 +3,7 @@ syntax = "proto3";
 package api.grpc.huanhuan;
 
 import "src/database/model/reply/reply.proto";
-import "src/huanhuancore/model/token.proto";
+import "src/database/model/token/token.proto";
 
 option go_package = "huanhuan";
 

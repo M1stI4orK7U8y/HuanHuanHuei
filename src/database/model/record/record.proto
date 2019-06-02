@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package model.record;
 
+import "src/database/model/token/token.proto";
+
 option go_package = "record";
 
 enum StatusCode {
@@ -22,7 +24,7 @@ message Record {
 
 message TokenDetail {
     string txhash = 1;
-    string tokenType = 2;
+    model.token.TokenType tokenType = 2;
     string address = 3;
     string tokenValue = 4;
     int32 tokenDecimal = 5;

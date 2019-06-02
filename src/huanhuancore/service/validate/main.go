@@ -3,11 +3,11 @@ package validate
 import (
 	"strings"
 
+	t "gitlab.com/packtumi9722/huanhuanhuei/src/database/model/token"
 	r "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
-	t "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
 )
 
-// ValidateInputTx validate input tx
+// CheckInputTx validate input tx
 func CheckInputTx(input *r.HuanHuanRequest) bool {
 	if input == nil {
 		return false
