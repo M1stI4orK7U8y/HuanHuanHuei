@@ -9,7 +9,8 @@ message BTC {
     int64 locktime = 2;
     string blockhash = 3;
     int64 confirmations = 4;
-    repeated Vout vout = 5;
+    repeated Vin vin = 5;
+    repeated Vout vout = 6;
 }
 
 message Vout {
@@ -20,4 +21,9 @@ message Vout {
 
 message ScriptPubKey {
     repeated string addresses = 1;
+}
+
+message Vin {
+    string txid = 1;
+    int64 vout = 2;
 }
