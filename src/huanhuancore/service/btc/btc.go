@@ -3,9 +3,12 @@ package btc
 import (
 	"encoding/json"
 	"errors"
+	"math"
+	"math/big"
 	"strconv"
 	"strings"
 
+	t "gitlab.com/packtumi9722/huanhuanhuei/src/database/model/token"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/client/rpc"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/config"
 	token "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
@@ -46,4 +49,27 @@ func GetValueOutToOfficial(_txdata *token.BTC) string {
 		}
 	}
 	return strconv.FormatInt(v, 10)
+}
+
+// SendToAddress send btc to address
+func SendToAddress(address string, amount string) (string, error) {
+	btcrpc := rpc.BTCRPC()
+
+	args := make([]interface{}, 0)
+	args = append(args, address)
+
+	satoshi, _ := new(big.Float).SetString(amount)
+	btc, _ := new(big.Float).Quo(satoshi, big.NewFloat(math.Pow10(int(token.Decimal[t.TokenType_BTC])))).Float64()
+
+	args = append(args, btc)
+
+	response, err := btcrpc.Call("sendtoaddress", args)
+	if response != nil {
+		if response.Error != nil {
+			return "", errors.New(response.Error.Message)
+		}
+	} else if err != nil {
+		return "", err
+	}
+	return response.Result.(string), nil
 }
