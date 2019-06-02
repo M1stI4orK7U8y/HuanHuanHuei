@@ -10,8 +10,8 @@ import (
 	huanhuan "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
 
 	// service
+	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/btc"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/grpc"
-	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/validate"
 )
 
 // DoHuanHuan do huanhuan service
@@ -41,12 +41,12 @@ func (*Service) DoHuanHuan(input *huanhuan.HuanHuanRequest) error {
 
 func firstcheck(input *huanhuan.HuanHuanRequest, intx interface{}) error {
 	// check input tx
-	if intx != nil || validate.CheckInputTx(input.From, intx) == false {
-		return errors.New("validate input tx error")
+	if intx != nil || btc.CheckInputTx(input.From, intx) == false {
+		return errors.New("btc input tx error")
 	}
 	// check receiver field
 	if validReceiver(input.To, input.Receiver) == false {
-		return errors.New("validate receiver data error")
+		return errors.New("btc receiver data error")
 	}
 	return nil
 }

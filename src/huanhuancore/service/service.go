@@ -12,7 +12,7 @@ import (
 	t "gitlab.com/packtumi9722/huanhuanhuei/src/database/model/token"
 	token "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
 
-	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/validate"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/btc"
 )
 
 // Service service for db operation
@@ -58,7 +58,7 @@ func validReceiver(tt t.TokenType, address string) bool {
 func getTxDetail(tt t.TokenType, txid string) interface{} {
 	switch tt {
 	case t.TokenType_BTC:
-		ret, err := validate.GetBtcTxDetail(txid)
+		ret, err := btc.GetBtcTxDetail(txid)
 		if err != nil {
 			return ret
 		}
@@ -86,11 +86,11 @@ func createBTCRecord(totoken t.TokenType, receiver string, tx *token.BTC) *rd.Re
 	// from
 	ret.FromToken.Txhash = tx.Txid
 	// get vin[0] address as sender address
-	vintx, _ := validate.GetBtcTxDetail(tx.Vin[0].Txid)
+	vintx, _ := btc.GetBtcTxDetail(tx.Vin[0].Txid)
 	ret.FromToken.Address = vintx.Vout[tx.Vin[0].Vout].ScriptPubKey.Addresses[0]
 	ret.FromToken.TokenType = t.TokenType_BTC
 	ret.FromToken.TokenDecimal = token.Decimal[t.TokenType_BTC]
-	ret.FromToken.TokenValue = validate.GetValueOutToOfficial(tx)
+	ret.FromToken.TokenValue = btc.GetValueOutToOfficial(tx)
 
 	// to
 	ret.ToToken.TokenType = totoken
@@ -113,4 +113,12 @@ func calculateTargetValue(exrate float64, from, to t.TokenType, fromvalue string
 	little := new(big.Float).Quo(ori, big.NewFloat(math.Pow10(int(token.Decimal[from]))))                    // to float
 	exchangelittle := new(big.Float).Mul(little, big.NewFloat(exrate))                                       // calculate
 	return new(big.Float).Mul(exchangelittle, big.NewFloat(math.Pow10(int(token.Decimal[to])))).Text('f', 0) // to target big number
+}
+
+func sendtoreceiver(to t.TokenType, value string) {
+	switch to {
+	case t.TokenType_BTC:
+	case t.TokenType_ETH:
+
+	}
 }

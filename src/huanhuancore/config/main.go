@@ -54,3 +54,8 @@ func BTCOfficial() string {
 func ETHOfficial() string {
 	return getConfig().Official.Ethaddress
 }
+
+// ETHURL eth rpc url
+func ETHURL() string {
+	return getConfig().ETH.Rpcurl
+}
