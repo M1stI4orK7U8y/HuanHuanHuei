@@ -74,7 +74,7 @@ func validReceiver(tt t.TokenType, address string) bool {
 func getTxDetail(tt t.TokenType, txid string) (interface{}, error) {
 	switch tt {
 	case t.TokenType_BTC:
-		return btc.GetBtcTxDetail(txid)
+		return btc.GetTxDetail(txid)
 	case t.TokenType_ETH:
 	}
 	return nil, nil
@@ -100,7 +100,7 @@ func createBTCRecord(totoken t.TokenType, receiver string, tx *token.BTC) *rd.Re
 	ret.FromToken = new(rd.TokenDetail)
 	ret.FromToken.Txhash = tx.Txid
 	// get vin[0] address as sender address
-	vintx, _ := btc.GetBtcTxDetail(tx.Vin[0].Txid)
+	vintx, _ := btc.GetTxDetail(tx.Vin[0].Txid)
 	ret.FromToken.Address = vintx.Vout[tx.Vin[0].Vout].ScriptPubKey.Addresses[0]
 	ret.FromToken.TokenType = t.TokenType_BTC
 	ret.FromToken.TokenDecimal = token.Decimal[t.TokenType_BTC]

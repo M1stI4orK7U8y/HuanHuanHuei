@@ -12,7 +12,7 @@ import (
 )
 
 // GetBtcTxDetail get btc tx detail
-func GetBtcTxDetail(txid string) (*token.BTC, error) {
+func GetTxDetail(txid string) (*token.BTC, error) {
 	btcrpc := rpc.BTCRPC()
 
 	args := make([]interface{}, 0)
