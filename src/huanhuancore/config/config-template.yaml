@@ -9,3 +9,4 @@ db:
 official:
   btcaddress: "official-btc-address"
   ethaddress: "official-eth-address"
+  ethsecret: "secret-of-eth-official-address"

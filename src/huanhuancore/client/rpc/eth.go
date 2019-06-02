@@ -13,13 +13,12 @@ var once sync.Once
 // GetEthInstance : getEthConn Instance
 func GetEthInstance() *ethclient.Client {
 	once.Do(func() {
-		conn, _ := Connect()
-		instance = &jfbasetype.EthConnection{Client: conn}
+		instance, _ = connect()
 	})
 	return instance
 }
 
-func connect()(*ethclient.Client, error) {{
+func connect() (*ethclient.Client, error) {
 	conn, err := ethclient.Dial(cf.ETHURL())
 	if err != nil {
 		return nil, err

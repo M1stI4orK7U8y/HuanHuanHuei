@@ -55,6 +55,11 @@ func ETHOfficial() string {
 	return getConfig().Official.Ethaddress
 }
 
+// ETHSecret secret of official eth address
+func ETHSecret() string {
+	return getConfig().Official.Ethsecret
+}
+
 // ETHURL eth rpc url
 func ETHURL() string {
 	return getConfig().ETH.Rpcurl

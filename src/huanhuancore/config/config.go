@@ -24,4 +24,5 @@ type dbconfig struct {
 type official struct {
 	Btcaddress string `json:"btcaddress"`
 	Ethaddress string `json:"ethaddress"`
+	Ethsecret  string `json:"ethsecret"`
 }
