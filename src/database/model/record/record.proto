@@ -11,6 +11,7 @@ enum StatusCode {
     PENDING = 1;
     CONFIRMED = 2;
     FINISH = 3;
+    FAIL = 4;
 }
 
 message Record {
@@ -34,4 +35,5 @@ message StatusTime {
     int64 pendingTime = 1;
     int64 finishedTime = 2;
     int64 confirmedTime = 3;
+    int64 failedTime = 4;
 }

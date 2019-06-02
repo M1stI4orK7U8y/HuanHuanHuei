@@ -15,31 +15,30 @@ import (
 )
 
 // SendToAddress send eth to address
-func SendToAddress(address string, amount string) (*types.Transaction, error) {
+func SendToAddress(address string, amount string) (string, error) {
 
 	client := rpc.GetEthInstance()
 	privateKey, err := crypto.HexToECDSA(config.ETHSecret()) // 要求來源的私鑰
 	if err != nil {
-		//log.Println(err)
-		return nil, err
+		return "", err
 	}
 
 	publicKey := privateKey.Public()
 	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
 	if !ok {
-		return nil, errors.New("error casting public key to ECDSA")
+		return "", errors.New("error casting public key to ECDSA")
 	}
 
 	fromAddress := crypto.PubkeyToAddress(*publicKeyECDSA)
 	nonce, err := client.PendingNonceAt(context.Background(), fromAddress)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	gasLimit := uint64(21000) // in units
 	gasPrice, err := client.SuggestGasPrice(context.Background())
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	toAddress := common.HexToAddress(address)
@@ -49,20 +48,20 @@ func SendToAddress(address string, amount string) (*types.Transaction, error) {
 
 	chainID, err := client.NetworkID(context.Background())
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	err = client.SendTransaction(context.Background(), signedTx)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return signedTx, nil
+	return signedTx.Hash().Hex(), nil
 }
 
 // GetBalance get eth balance

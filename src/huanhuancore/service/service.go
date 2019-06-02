@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"math"
 	"math/big"
 	"net/http"
@@ -10,9 +11,11 @@ import (
 	//model
 	rd "gitlab.com/packtumi9722/huanhuanhuei/src/database/model/record"
 	t "gitlab.com/packtumi9722/huanhuanhuei/src/database/model/token"
+	huanhuan "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
 	token "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/model"
 
 	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/btc"
+	"gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/service/eth"
 )
 
 // Service service for db operation
@@ -36,6 +39,19 @@ func getrate(from, to t.TokenType) float64 {
 	// {"ethereum":{"btc":0.0312016}}
 	// get the value of vs currency
 	return target.(map[string]interface{})[token.Fullname[from]].(map[string]interface{})[token.ShortName[to]].(float64)
+}
+
+func checkInputTx(input *huanhuan.HuanHuanRequest, intx interface{}) error {
+	switch input.From {
+	case t.TokenType_BTC:
+		if btc.CheckInputTx(input.From, intx) == false {
+			return errors.New("check input tx error")
+		}
+	case t.TokenType_ETH:
+	default:
+		return errors.New("token not support")
+	}
+	return nil
 }
 
 func validReceiver(tt t.TokenType, address string) bool {
@@ -115,10 +131,11 @@ func calculateTargetValue(exrate float64, from, to t.TokenType, fromvalue string
 	return new(big.Float).Mul(exchangelittle, big.NewFloat(math.Pow10(int(token.Decimal[to])))).Text('f', 0) // to target big number
 }
 
-func sendtoreceiver(to t.TokenType, value string) {
+func sendtoreceiver(to t.TokenType, address, value string) (string, error) {
 	switch to {
 	case t.TokenType_BTC:
 	case t.TokenType_ETH:
-
+		return eth.SendToAddress(address, value)
 	}
+	return "", errors.New("sendtoreceiver: type not support")
 }
