@@ -7,6 +7,11 @@ func Port() string {
 	return getConfig().Port
 }
 
+// IP IP
+func IP() string {
+	return getConfig().IP
+}
+
 // Name returns worker name
 func Name() string {
 	return getConfig().Name

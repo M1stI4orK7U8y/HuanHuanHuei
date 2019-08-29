@@ -13,6 +13,7 @@ var once sync.Once
 
 type config struct {
 	Port string `json:"port"`
+	IP   string `json:"ip"`
 
 	Name        string        `json:"name"`
 	ServiceName string        `json:"servicename"`

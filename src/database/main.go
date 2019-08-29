@@ -15,6 +15,8 @@ import (
 	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/config"
 	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
+
+	"gitlab.com/packtumi9722/etcd-agency/worker"
 )
 
 func main() {
@@ -22,7 +24,7 @@ func main() {
 }
 
 func grpcproc() {
-	lis, err := net.Listen("tcp", config.Port())
+	lis, err := net.Listen("tcp", config.IP()+config.Port())
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
@@ -36,6 +38,20 @@ func grpcproc() {
 
 	// // register reflection service
 	reflection.Register(s)
+
+	w, err := worker.NewWorker(config.ETCDHosts(), config.ETCDTimeout())
+	info := w.WorkerInfo()
+	info.Name = config.Name()
+	info.ServiceName = config.ServiceName()
+	info.Address = lis.Addr().String()
+	info.Protocol = "grpc"
+
+	go func() {
+		for {
+			w.SayIAmAlive(info)
+			time.Sleep(config.Heartbeat())
+		}
+	}()
 
 	go func() {
 		if err := s.Serve(lis); err != nil {

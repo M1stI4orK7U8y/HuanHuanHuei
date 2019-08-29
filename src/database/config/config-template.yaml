@@ -1,4 +1,5 @@
 # local grpc port
+ip: "ipaddress"
 port: ":port"
 
 # db service name
