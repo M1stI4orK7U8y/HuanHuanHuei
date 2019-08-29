@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"gitlab.com/packtumi9722/etcd-agency/agency"
 	"gitlab.com/packtumi9722/etcd-agency/worker"
 	huangrpc "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
 	huanserver "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/server/grpc"
@@ -49,6 +50,10 @@ func grpcproc() {
 			time.Sleep(config.Heartbeat())
 		}
 	}()
+
+	// init agency
+	agency.InitAgency(config.ETCDHosts())
+	agency.Instance().SubscribeService([]string{config.DBServiceName()})
 
 	go func() {
 		if err := s.Serve(lis); err != nil {
