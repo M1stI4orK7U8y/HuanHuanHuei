@@ -7,5 +7,5 @@ import (
 
 // ConnectDB connect to db
 func ConnectDB() (*grpc.ClientConn, error) {
-	return grpc.Dial(config.DBGrpcURL(), grpc.WithInsecure())
+	return grpc.Dial(config.DBServiceName(), grpc.WithInsecure())
 }

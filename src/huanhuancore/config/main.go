@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -40,9 +41,9 @@ func BTCPassword() string {
 	return getConfig().BTC.Password
 }
 
-// DBGrpcURL get db grpc url
-func DBGrpcURL() string {
-	return getConfig().DB.Grpcurl
+// DBServiceName get db grpc url
+func DBServiceName() string {
+	return getConfig().DB.ServiceName
 }
 
 // BTCOfficial official btc address
@@ -68,4 +69,34 @@ func ETHURL() string {
 // Port port number
 func Port() string {
 	return getConfig().Port
+}
+
+// IP IP
+func IP() string {
+	return getConfig().IP
+}
+
+// Name returns worker name
+func Name() string {
+	return getConfig().Name
+}
+
+// ServiceName returns service name
+func ServiceName() string {
+	return getConfig().ServiceName
+}
+
+// ETCDHosts returns all etcd hosts address
+func ETCDHosts() []string {
+	return getConfig().ETCDHosts
+}
+
+// ETCDTimeout returns etcd connection timeout
+func ETCDTimeout() time.Duration {
+	return getConfig().ETCDTimeout * time.Second
+}
+
+// Heartbeat returns the heartbeat time to say i am alive
+func Heartbeat() time.Duration {
+	return getConfig().Heartbeat * time.Second
 }

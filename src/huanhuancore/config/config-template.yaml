@@ -5,9 +5,21 @@ btc:
 eth:
   rpcurl: "url-to-eth-client:port"
 db:
-  grpcurl: "url-to-grpc:port"
+  servicename: "dbservice"
 official:
   btcaddress: "official-btc-address"
   ethaddress: "official-eth-address"
   ethsecret: "secret-of-eth-official-address"
+
+# local grpc port
+ip: "ipaddress"
 port: ":port"
+
+# core service name
+name: "core"
+servicename: "coreservice"
+
+# etcd config
+etcdhosts : ["127.0.0.1:1234"]
+etcdtimeout : 2
+heartbeat: 1
