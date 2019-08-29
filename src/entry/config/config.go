@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -11,17 +12,22 @@ var instance *config
 var once sync.Once
 
 type config struct {
+	IP   string      `json:"ip"`
 	Port string      `json:"port"`
 	DB   *dbconfig   `json:"db"`
 	Core *coreconfig `json:"core"`
+
+	ETCDHosts   []string      `josn:"etcdhosts"`
+	ETCDTimeout time.Duration `json:"etcdtimeout"`
+	Heartbeat   time.Duration `json:"heartbeat"`
 }
 
 type dbconfig struct {
-	Grpcurl string `json:"grpcurl"`
+	ServiceName string `json:"servicename"`
 }
 
 type coreconfig struct {
-	Grpcurl string `json:"grpcurl"`
+	ServiceName string `json:"servicename"`
 }
 
 // getConfig config Instance
