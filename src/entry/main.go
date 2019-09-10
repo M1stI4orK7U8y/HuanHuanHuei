@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"gitlab.com/packtumi9722/etcd-agency/agency"
+	agency "gitlab.com/packtumi9722/etcd-agency"
 
 	"github.com/go-chi/chi"
 
@@ -28,8 +28,8 @@ func main() {
 	}
 
 	// init agency to get grpc service in the future
-	agency.InitAgency(config.ETCDHosts())
-	agency.Instance().SubscribeService([]string{config.CoreServiceName(), config.DBServiceName()})
+	agency.InitAgency(config.ETCDHosts(), agency.V3)
+	agency.SubscribeService([]string{config.CoreServiceName(), config.DBServiceName()})
 
 	go func() {
 		log.Fatal(http.ListenAndServe(config.Port(), router)) // Note, the port is usually gotten from the environment.
