@@ -11,10 +11,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	agency "gitlab.com/packtumi9722/etcd-agency"
 	pendpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
 	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/config"
 	dbgrpc "gitlab.com/packtumi9722/huanhuanhuei/src/database/server/grpc"
+
+	"gitlab.com/packtumi9722/etcd-agency/worker"
 )
 
 func main() {
@@ -22,7 +25,7 @@ func main() {
 }
 
 func grpcproc() {
-	lis, err := net.Listen("tcp", config.Port())
+	lis, err := net.Listen("tcp", config.IP()+config.Port())
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
@@ -36,6 +39,21 @@ func grpcproc() {
 
 	// // register reflection service
 	reflection.Register(s)
+
+	agency.InitAgency(config.ETCDHosts(), agency.V3)
+	w := new(worker.WorkerInfo)
+	w.Name = config.Name()
+	w.ServiceName = config.ServiceName()
+	w.Address = lis.Addr().String()
+	w.Protocol = "grpc"
+
+	go func() {
+		sayIAmAlive := agency.RegisterService(w)
+		for {
+			sayIAmAlive <- w
+			time.Sleep(config.Heartbeat())
+		}
+	}()
 
 	go func() {
 		if err := s.Serve(lis); err != nil {

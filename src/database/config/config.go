@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -12,6 +13,13 @@ var once sync.Once
 
 type config struct {
 	Port string `json:"port"`
+	IP   string `json:"ip"`
+
+	Name        string        `json:"name"`
+	ServiceName string        `json:"servicename"`
+	ETCDHosts   []string      `josn:"etcdhosts"`
+	ETCDTimeout time.Duration `json:"etcdtimeout"`
+	Heartbeat   time.Duration `json:"heartbeat"`
 }
 
 // getConfig config Instance

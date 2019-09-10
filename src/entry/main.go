@@ -8,6 +8,8 @@ import (
 	"syscall"
 	"time"
 
+	agency "gitlab.com/packtumi9722/etcd-agency"
+
 	"github.com/go-chi/chi"
 
 	r "gitlab.com/packtumi9722/huanhuanhuei/src/entry/api/http"
@@ -24,6 +26,10 @@ func main() {
 	if err := chi.Walk(router, walkFunc); err != nil {
 		log.Panicf("Logging err: %s\n", err.Error()) // panic if there is an error
 	}
+
+	// init agency to get grpc service in the future
+	agency.InitAgency(config.ETCDHosts(), agency.V3)
+	agency.SubscribeService([]string{config.CoreServiceName(), config.DBServiceName()})
 
 	go func() {
 		log.Fatal(http.ListenAndServe(config.Port(), router)) // Note, the port is usually gotten from the environment.

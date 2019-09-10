@@ -1,1 +1,14 @@
+# local grpc port
+ip: "ipaddress"
 port: ":port"
+
+# db service name
+name: "name"
+servicename: "dbservice"
+
+# etcd config
+etcdhosts : ["127.0.0.1:1234"]
+etcdtimeout : 2
+heartbeat: 1
+
+

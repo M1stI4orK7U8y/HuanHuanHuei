@@ -1,5 +1,13 @@
-port: ":port"
 db:
-  grpcurl: "url-to-grpc:port"
+  servicename: "dbservice"
 core:
-  grpcurl: "url-to-grpc:port"
+  servicename: "coreservice"
+
+# local service port
+ip: "ipaddress"
+port: ":port"
+
+# etcd config
+etcdhosts : ["127.0.0.1:1234"]
+etcdtimeout : 2
+heartbeat: 1
