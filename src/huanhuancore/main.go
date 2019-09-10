@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"gitlab.com/packtumi9722/etcd-agency/agency"
+	agency "gitlab.com/packtumi9722/etcd-agency"
 	"gitlab.com/packtumi9722/etcd-agency/worker"
 	huangrpc "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/api/grpc"
 	huanserver "gitlab.com/packtumi9722/huanhuanhuei/src/huanhuancore/server/grpc"
@@ -36,24 +36,25 @@ func grpcproc() {
 	// // register reflection service
 	reflection.Register(s)
 
+	// init agency
+	agency.InitAgency(config.ETCDHosts(), agency.V3)
 	// register grpc service to etcd
-	w, err := worker.NewWorker(config.ETCDHosts(), config.ETCDTimeout())
-	info := w.WorkerInfo()
-	info.Name = config.Name()
-	info.ServiceName = config.ServiceName()
-	info.Address = lis.Addr().String()
-	info.Protocol = "grpc"
+	w := new(worker.WorkerInfo)
+	w.Name = config.Name()
+	w.ServiceName = config.ServiceName()
+	w.Address = lis.Addr().String()
+	w.Protocol = "grpc"
 
 	go func() {
+		sayIAmAlive := agency.RegisterService(w)
 		for {
-			w.SayIAmAlive(info)
+			sayIAmAlive <- w
 			time.Sleep(config.Heartbeat())
 		}
 	}()
 
-	// init agency
-	agency.InitAgency(config.ETCDHosts())
-	agency.Instance().SubscribeService([]string{config.DBServiceName()})
+	// subscribe grpc service
+	agency.SubscribeService([]string{config.DBServiceName()})
 
 	go func() {
 		if err := s.Serve(lis); err != nil {
