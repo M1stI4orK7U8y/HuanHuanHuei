@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	agency "gitlab.com/packtumi9722/etcd-agency"
 	pendpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/pending"
 	rdpro "gitlab.com/packtumi9722/huanhuanhuei/src/database/api/grpc/record"
 	"gitlab.com/packtumi9722/huanhuanhuei/src/database/config"
@@ -39,16 +40,17 @@ func grpcproc() {
 	// // register reflection service
 	reflection.Register(s)
 
-	w, err := worker.NewWorker(config.ETCDHosts(), config.ETCDTimeout())
-	info := w.WorkerInfo()
-	info.Name = config.Name()
-	info.ServiceName = config.ServiceName()
-	info.Address = lis.Addr().String()
-	info.Protocol = "grpc"
+	agency.InitAgency(config.ETCDHosts(), agency.V3)
+	w := new(worker.WorkerInfo)
+	w.Name = config.Name()
+	w.ServiceName = config.ServiceName()
+	w.Address = lis.Addr().String()
+	w.Protocol = "grpc"
 
 	go func() {
+		sayIAmAlive := agency.RegisterService(w)
 		for {
-			w.SayIAmAlive(info)
+			sayIAmAlive <- w
 			time.Sleep(config.Heartbeat())
 		}
 	}()
