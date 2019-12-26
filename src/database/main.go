@@ -41,7 +41,7 @@ func grpcproc() {
 	reflection.Register(s)
 
 	agency.InitAgency(config.ETCDHosts(), agency.V3)
-	w := new(worker.WorkerInfo)
+	w := new(worker.Info)
 	w.Name = config.Name()
 	w.ServiceName = config.ServiceName()
 	w.Address = lis.Addr().String()
