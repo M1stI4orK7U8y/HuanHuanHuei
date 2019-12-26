@@ -39,7 +39,7 @@ func grpcproc() {
 	// init agency
 	agency.InitAgency(config.ETCDHosts(), agency.V3)
 	// register grpc service to etcd
-	w := new(worker.WorkerInfo)
+	w := new(worker.Info)
 	w.Name = config.Name()
 	w.ServiceName = config.ServiceName()
 	w.Address = lis.Addr().String()
