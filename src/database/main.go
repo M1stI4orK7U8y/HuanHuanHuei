@@ -41,11 +41,7 @@ func grpcproc() {
 	reflection.Register(s)
 
 	agency.InitAgency(config.ETCDHosts(), agency.V3)
-	w := new(worker.Info)
-	w.Name = config.Name()
-	w.ServiceName = config.ServiceName()
-	w.Address = lis.Addr().String()
-	w.Protocol = "grpc"
+	w := worker.NewInfo(&worker.Config{Name: config.Name(), ServiceName: config.ServiceName(), Address: lis.Addr().String(), Protocol: "grpc"})
 
 	go func() {
 		sayIAmAlive := agency.RegisterService(w)

@@ -12,7 +12,7 @@ import (
 func ConnectDB() (*grpc.ClientConn, error) {
 	if agency.ServiceAvailable(config.DBServiceName()) {
 		worker := agency.GetServiceWorker(config.DBServiceName())
-		return grpc.Dial(worker.Address, grpc.WithInsecure())
+		return grpc.Dial(worker.Address(), grpc.WithInsecure())
 	}
 	return nil, errors.New(config.DBServiceName() + " grpc service not available")
 }
@@ -21,7 +21,7 @@ func ConnectDB() (*grpc.ClientConn, error) {
 func ConnectCore() (*grpc.ClientConn, error) {
 	if agency.ServiceAvailable(config.DBServiceName()) {
 		worker := agency.GetServiceWorker(config.CoreServiceName())
-		return grpc.Dial(worker.Address, grpc.WithInsecure())
+		return grpc.Dial(worker.Address(), grpc.WithInsecure())
 	}
 	return nil, errors.New(config.CoreServiceName() + " grpc service not available")
 }
